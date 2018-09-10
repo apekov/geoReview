@@ -58,3 +58,7 @@ input{
   margin-top: 10px;
   float:right;
 }
+
+.name_addres{
+  cursor: pointer;
+}

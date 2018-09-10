@@ -1,47 +1,13 @@
 let myMap;
-let clusterer;
-const nameFild = document.querySelector('#name');
-const placeFild = document.querySelector('#place');
-const reviewFild = document.querySelector('#review');
-const obj = {
-    placemark: [
-        // {
-        //     id: [55.650625, 37.62708],
-        //     adress: 'Таганская улица, 22',
-        //     reviews: [
-        //         {
-        //             name: 'alan',
-        //             place: 'Chocolate room',
-        //             review: 'this magazin, may very bed observe',
-        //             date: ''
-        //         },
-        //         {
-        //             name: 'alan',
-        //             place: 'Chocolate room',
-        //             review: 'this magazin, may very bed observe',
-        //             date: ''
-        //         }
-        //       ]
-        //     }
-          ]
-        };
+const obj = {placemark: []};
 ymaps.ready(() => {
   // Создаем карту
     myMap = new ymaps.Map('map', {
         center: [55.76, 37.64], // Москва
         zoom: 12
     }, { searchControlProvider: 'yandex#search' }),
-    // Объявляем кластеризатор объектов
-    // clusterer = new ymaps.Clusterer({
-    //     // preset: 'islands#invertedVioletClusterIcons',
-    //     clusterDisableClickZoom: true,
-    //     clusterOpenBalloonOnClick: false,
-    // });
     objectManager = new ymaps.ObjectManager({
-    // Чтобы метки начали кластеризоваться, выставляем опцию.
     clusterize: true,
-    // ObjectManager принимает те же опции, что и кластеризатор.
-    // gridSize: 32,
     clusterHasBalloon: false,
     clusterHasHint: false,
     objectHasBalloon: false,
@@ -73,34 +39,43 @@ ymaps.ready(() => {
                 closeButton.addEventListener('click', () => {
                     windowBlock.style.display = 'none';
                 });
-                saveButton.addEventListener('click', () => {
-                    savePlace();
-                    renderMap();
-                    let array = obj.placemark;
-                    for (let i = 0; i < array.length; i++) {
-                        if(exam === array[i].id){
-                          renderHtml('#with_review', array[i]);
-                          getControl();
-                        }
-                    }
-                })
+                if(saveButton){
+                  saveButton.addEventListener('click', () => {
+                      savePlace();
+                      renderMap();
+                      let array = obj.placemark;
+                      for (let i = 0; i < array.length; i++) {
+                          if(exam === array[i].id){
+                            renderHtml('#with_review', array[i]);
+                            getControl();
+                          }
+                      }
+                  });
+                }
             };
             getControl();
+
             objectManager.events.add('click', function (e) {
               let objectId = e.get('objectId'),
                 object = objectManager.objects.getById(objectId);
                   if(object){
+
                     renderHtml('#with_review', object.properties.items);
                     getControl();
                   }
             });
             objectManager.clusters.events.add('click', function (e) {
-                let clusterFeat = objectManager.clusters.getById(e.get('objectId')).features;
-                 // console.log(cluster.features);
-                 for (let i = 0; i < clusterFeat.length; i++) {
-                   console.log(clusterFeat[i]);
-                 }
+                let cluster = objectManager.clusters.getById(e.get('objectId'));
+                renderHtml('#review_corousel', cluster);
+                getControl();
+                let adresLink = document.querySelectorAll('.name_addres');
+                for (var i = 0; i < adresLink.length; i++) {
+                  adresLink[i].addEventListener('click', () => {
+                      console.log(i);
+                  })
+                }
             });
+
             // Сохранение координат и отзывов
             function savePlace(){
               let boof;
@@ -145,9 +120,7 @@ ymaps.ready(() => {
             function renderMap() {
                 let array = obj.placemark;
                 objectManager.removeAll();
-                let myPlacemarks = [];
                 for (let i = 0; i < array.length; i++) {
-                    let count = array[i].reviews.length
                     objectManager.add({
                         type: 'Feature',
                         id: i,
@@ -156,7 +129,6 @@ ymaps.ready(() => {
                             coordinates: array[i].id
                         },
                         properties: {
-                            balloonContent: 'Содержимое балуна ' + i,
                             items: array[i]
                         }
                     });
