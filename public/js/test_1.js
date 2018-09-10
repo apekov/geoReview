@@ -144,47 +144,10 @@ ymaps.ready(() => {
             // Добавление точек на карту
             function renderMap() {
                 let array = obj.placemark;
-                // Очищаем кластеризатор
                 objectManager.removeAll();
-                // for (let i = 0; i < array.length; i++) {
-                //     let myPlacemark
-                //     let count = array[i].reviews.length
-                //     // Изменение вида точки относительно количества отзывов
-                //     if(count > 1){
-                //        myPlacemark = new ymaps.Placemark(array[i].id, {
-                //          iconContent: count
-                //        });
-                //     } else {
-                //        myPlacemark = new ymaps.Placemark(array[i].id)
-                //     }
-                //     // Обработчик на клик добавленной точки
-                //     myPlacemark.events.add('click', function (e) {
-                //       renderHtml('#with_review', array[i]);
-                //       getControl();
-                //     });
-                //     clusterer.events.add('click', function (e) {
-                //          console.log(clusterer.getGeoObjects());
-                //     });
-                //     clusterer.add(myPlacemark);
-                // }
                 let myPlacemarks = [];
                 for (let i = 0; i < array.length; i++) {
                     let count = array[i].reviews.length
-                    // Изменение вида точки относительно количества отзывов
-                    // let placemark;
-                    // if(count > 1){
-                    //    placemark = new ymaps.Placemark(array[i].id, {
-                    //      iconContent: count
-                    //    });
-                    // } else {
-                    //    placemark = new ymaps.Placemark(array[i].id)
-                    // }
-                    // // Обработчик на клик добавленной точки
-                    // placemark.events.add('click', function (e) {
-                    //   renderHtml('#with_review', array[i]);
-                    //   getControl();
-                    // });
-                    // myPlacemarks.push(placemark);
                     objectManager.add({
                         type: 'Feature',
                         id: i,
@@ -193,21 +156,12 @@ ymaps.ready(() => {
                             coordinates: array[i].id
                         },
                         properties: {
-                            hintContent: 'Текст всплывающей подсказки',
                             balloonContent: 'Содержимое балуна ' + i,
                             items: array[i]
                         }
                     });
-
-                    // objectManager.add(placemark);
-
                 }
-                // clusterer.events.add('click', function (e) {
-                //      console.log(clusterer.getGeoObjects());
-                // });
-
                 myMap.geoObjects.add(objectManager);
-
             }
           },
           function (err) {
