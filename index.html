@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Marmelad" rel="stylesheet">
+  <title>Document</title>
+</head>
+<body>
+  <section class="contained">
+    <div class="image">
+      <img src="img/drug.png" alt="">
+    </div>
+  <div class="container">
+    <div class="cont">
+      <div class="header">
+        <span>Выберите друзей</span>
+        <img src="img/delete.png" alt="">
+      </div>
+        <div class="search">
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <input type="text" class="form-control" id="search_1" placeholder="Начните вводить имя друга">
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <input type="text" class="form-control" id="search_2" placeholder="Название">
+            </div>
+          </div>
+        </div>
+        <div class="list_friend">
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="heading">
+                <h6>Ваши друзья</h6>
+              </div>
+              <div class="list list_no_sort">
+
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="heading">
+                <h6>Друзья в списке</h6>
+              </div>
+              <div class="list list_sort">
+                <div class="item">
+                  <img src="https://pp.userapi.com/c834104/v834104292/59d75/r54aYszxIDY.jpg?ava=1" alt="">
+                  <span class="desc">Alan Apekov</span>
+                  <img class="delete" src="img/delete_friend.png" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+           <div class="row">
+             <div class="col-lg-10"></div>
+             <div class="col-lg-2">
+               <button id="save" type="submit" class="btn btn-primary">Сохранить</button>
+             </div>
+           </div>
+        </div>
+      </div>
+    </div>
+    <div class="bg_block"></div> 
+  </section>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script id="user-template" type="text/x-handlebars-template">
+      <!-- <div class="friends">
+          {{#each items}}
+          <div class="friend">
+            <img src="{{photo_100}}" alt=""/>
+            <div class="full_name">
+                <p>{{first_name}} {{last_name}}</p>
+            </div>
+          </div>
+          {{/each}}
+      </div> -->
+      {{#each items}}
+      <div class="item">
+        <img src="{{photo_100}}" alt="">
+        <span class="desc">{{first_name}} {{last_name}}</span>
+        <img class="add" src="img/add.png" alt="">
+      </div>
+      {{/each}}
+  </script>
+  <script src="build/bundle.js"></script>
+</body>
+</html>
