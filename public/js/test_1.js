@@ -59,7 +59,6 @@ ymaps.ready(() => {
               let objectId = e.get('objectId'),
                 object = objectManager.objects.getById(objectId);
                   if(object){
-
                     renderHtml('#with_review', object.properties.items);
                     getControl();
                   }
@@ -69,11 +68,17 @@ ymaps.ready(() => {
                 renderHtml('#review_corousel', cluster);
                 getControl();
                 let adresLink = document.querySelectorAll('.name_addres');
-                for (var i = 0; i < adresLink.length; i++) {
-                  adresLink[i].addEventListener('click', () => {
-                      console.log(i);
-                  })
-                }
+                Array.from(adresLink).forEach(link => {
+                    link.addEventListener('click', function(event) {
+                      let array = obj.placemark;
+                      for (let i = 0; i < array.length; i++) {
+                        if(this.textContent === array[i].adress){
+                          renderHtml('#with_review', array[i]);
+                          getControl();
+                        }
+                      }
+                    });
+                });
             });
 
             // Сохранение координат и отзывов
@@ -83,8 +88,9 @@ ymaps.ready(() => {
               if(!obj.placemark.length){boof = false;}
               else {
                 let array = obj.placemark;
+                
                 for (let i = 0; i < array.length; i++) {
-                  boof = (array[i].id === exam) ? array[i] : false;
+                    boof = (array[i].id === exam) ? array[i] : false;
                 }
               }
               if(!boof){
